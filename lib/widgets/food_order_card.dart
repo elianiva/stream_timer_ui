@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stream_timer/constants/colors.dart';
-import 'package:stream_timer/models/order.dart';
+import 'package:stream_timer/primitives/order.dart';
 
 class FoodOrderCard extends StatelessWidget {
   const FoodOrderCard({

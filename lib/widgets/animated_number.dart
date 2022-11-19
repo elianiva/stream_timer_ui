@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stream_timer/constants/colors.dart';
-import 'package:stream_timer/widgets/time_segment.dart';
+import 'package:stream_timer/primitives/time_difference.dart';
+import 'package:stream_timer/primitives/time_segment.dart';
 
 class AnimatedNumber extends StatelessWidget {
   const AnimatedNumber({
@@ -56,7 +57,7 @@ class AnimatedNumber extends StatelessWidget {
                 );
               },
               child: Text(
-                _findPreviousNumber(number, digitType).toString(),
+                TimeDifference.findPreviousTimeValue(number, digitType).toString(),
                 style: const TextStyle(
                   fontSize: 88,
                   height: 1,
@@ -69,27 +70,5 @@ class AnimatedNumber extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// Finds the previous number and cap it according to the [digitType]
-  int _findPreviousNumber(int number, SegmentDigitType type) {
-    int prevNumber = number - 1;
-    return prevNumber < 0 ? _findMaxSegmentNumber(type) : prevNumber;
-  }
-
-  int _findMaxSegmentNumber(SegmentDigitType segmentType) {
-    switch (segmentType) {
-      case SegmentDigitType.hoursLeft:
-        return 1;
-      case SegmentDigitType.minutesLeft:
-      case SegmentDigitType.secondsLeft:
-        return 5;
-      case SegmentDigitType.hoursRight:
-      case SegmentDigitType.minutesRight:
-      case SegmentDigitType.secondsRight:
-        return 9;
-      default:
-        return 0;
-    }
   }
 }

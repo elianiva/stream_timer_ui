@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stream_timer/bloc/countdown_bloc.dart';
+import 'package:stream_timer/primitives/time_difference.dart';
+import 'package:stream_timer/primitives/time_segment.dart';
 import 'package:stream_timer/widgets/animated_countdown.dart';
 
 class CountdownDisplay extends StatefulWidget {
@@ -77,8 +79,8 @@ class _CountdownDisplayState extends State<CountdownDisplay>
         _minutesControllers[1].forward();
       }
 
-      // same rule as the minutes segment applies here
-      if (prevDiff.minutes == 1 && currentDiff.minutes == 0) {
+      // same rule as the minutes segment applies here, except the offset
+      if (prevDiff.minutes == 0 && currentDiff.minutes == 59) {
         _hoursControllers[1].forward();
       }
 
@@ -87,13 +89,15 @@ class _CountdownDisplayState extends State<CountdownDisplay>
         prevDiff.seconds - 1,
         currentDiff.seconds - 1,
         _secondsControllers[0],
+        SegmentType.seconds,
       );
 
       // move the 1st digit of the minutes segment
       _animateLeftDigit(
-        prevDiff.minutes - 1,
-        currentDiff.minutes - 1,
+        prevDiff.minutes,
+        currentDiff.minutes,
         _minutesControllers[0],
+        SegmentType.minutes,
       );
 
       // move the 1st digit of the hours segment
@@ -101,6 +105,7 @@ class _CountdownDisplayState extends State<CountdownDisplay>
         prevDiff.hours - 1,
         currentDiff.hours - 1,
         _hoursControllers[0],
+        SegmentType.hours,
       );
 
       prevDiff = currentDiff;
@@ -184,15 +189,20 @@ class _CountdownDisplayState extends State<CountdownDisplay>
     int prev,
     int current,
     AnimationController controller,
+    SegmentType segmentType,
   ) {
     final prevFirstDigit = (prev / 10).floor();
     final currentFirstDigit = (current / 10).floor();
     if (prevFirstDigit != currentFirstDigit) {
       // prevent unnecessary animation, how does it work? I literally have no idea
       // I somehow figured it out, but I still don't know how
-      if (!(prevFirstDigit == -1 && currentFirstDigit == 5)) {
-        controller.forward();
+      if (segmentType == SegmentType.seconds &&
+          prevFirstDigit == -1 &&
+          currentFirstDigit == 5) {
+        return;
       }
+
+      controller.forward();
     }
   }
 }

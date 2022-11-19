@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stream_timer/constants/colors.dart';
+import 'package:stream_timer/primitives/time_segment.dart';
 import 'package:stream_timer/widgets/animated_number.dart';
-
-enum SegmentType {
-  hours,
-  minutes,
-  seconds,
-  unknown,
-}
-
-enum SegmentDigitType {
-  secondsLeft,
-  secondsRight,
-  minutesLeft,
-  minutesRight,
-  hoursLeft,
-  hoursRight,
-  unknown
-}
 
 class TimeSegment extends StatefulWidget {
   TimeSegment(

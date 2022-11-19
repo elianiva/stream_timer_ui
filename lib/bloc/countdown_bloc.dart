@@ -1,18 +1,6 @@
 import 'dart:async';
 
-class TimeDifference {
-  const TimeDifference({
-    required this.hours,
-    required this.minutes,
-    required this.seconds,
-  });
-
-  final int hours;
-  final int minutes;
-  final int seconds;
-
-  bool get isEmpty => hours <= 0 && minutes <= 0 && seconds <= 0;
-}
+import 'package:stream_timer/primitives/time_difference.dart';
 
 class CountdownBloc {
   CountdownBloc({required this.end}) {

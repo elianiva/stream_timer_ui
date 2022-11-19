@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stream_timer/bloc/countdown_bloc.dart';
+import 'package:stream_timer/primitives/time_difference.dart';
+import 'package:stream_timer/primitives/time_segment.dart';
 import 'package:stream_timer/widgets/time_segment.dart';
 
 class AnimatedCountdown extends StatelessWidget {
