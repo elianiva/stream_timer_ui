@@ -7,7 +7,11 @@ class OrderList extends StatelessWidget {
   OrderList({super.key, required this.orders});
 
   final List<Order> orders;
-  final List<int> colors = [0xFFFFBE61, 0xFFEC775C, 0xFF79A66B];
+  final List<Color> colors = [
+    AppColors.orangeIconBg,
+    AppColors.redIconBg,
+    AppColors.greenIconBg,
+  ];
 
   @override
   Widget build(BuildContext context) {

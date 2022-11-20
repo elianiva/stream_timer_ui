@@ -17,7 +17,7 @@ class FoodOrderCard extends StatelessWidget {
   final double price;
   final int multiplier;
   final double rating;
-  final int iconBgColor;
+  final Color iconBgColor;
   final FoodType foodType;
 
   @override
@@ -82,7 +82,7 @@ class FoodOrderCard extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Color(iconBgColor),
+                color: iconBgColor,
                 borderRadius: BorderRadius.circular(200),
               ),
               child: Center(child: Image.asset(iconPath)),
