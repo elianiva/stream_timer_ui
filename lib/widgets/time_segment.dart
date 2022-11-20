@@ -23,8 +23,8 @@ class TimeSegment extends StatefulWidget {
   final String label;
   final bool animated;
   final SegmentType segmentType;
-  AnimationController? leftAnimation;
-  AnimationController? rightAnimation;
+  final AnimationController? leftAnimation;
+  final AnimationController? rightAnimation;
 
   @override
   State<TimeSegment> createState() => _TimeSegmentState();
