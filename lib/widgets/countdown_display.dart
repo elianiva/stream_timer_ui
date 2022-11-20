@@ -17,78 +17,71 @@ class _CountdownDisplayState extends State<CountdownDisplay>
     with TickerProviderStateMixin {
   late final CountdownBloc _countdownBloc = CountdownBloc(end: widget.end);
 
-  late List<AnimationController> _secondsControllers;
-  late List<AnimationController> _minutesControllers;
-  late List<AnimationController> _hoursControllers;
+  late List<AnimationController> _secondsAnimations;
+  late List<AnimationController> _minutesAnimations;
+  late List<AnimationController> _hoursAnimations;
 
   /// a list to store all animation controllers to make it easier when we want
   /// to operate on all of them
-  late final List<AnimationController> _animationControllers = [
-    ..._secondsControllers,
-    ..._minutesControllers,
-    ..._hoursControllers
+  late final List<AnimationController> _clockAnimations = [
+    ..._secondsAnimations,
+    ..._minutesAnimations,
+    ..._hoursAnimations
   ];
 
   @override
   void initState() {
     super.initState();
 
-    _secondsControllers = [
+    _secondsAnimations = [
       _buildClockAnimation(this), // tens
       _buildClockAnimation(this), // ones
     ];
-    _minutesControllers = [
+    _minutesAnimations = [
       _buildClockAnimation(this), // tens
       _buildClockAnimation(this), // ones
     ];
-    _hoursControllers = [
+    _hoursAnimations = [
       _buildClockAnimation(this), // tens
       _buildClockAnimation(this), // ones
     ];
 
-    // we need this to prevent the clock animating on the first iteration
-    bool hasRan = false;
     _countdownBloc.stream.listen((countdown) {
-      if (!hasRan) {
-        hasRan = true;
-        return;
-      }
-
       // reset all digits position
-      for (final controller in _animationControllers) {
+      for (final controller in _clockAnimations) {
         controller.reset();
       }
 
       // move the ones digit
       if (countdown.currentDiff.seconds != countdown.nextDiff.seconds) {
-        _secondsControllers[1].forward();
+        _secondsAnimations[1].forward();
       }
       if (countdown.currentDiff.minutes != countdown.nextDiff.minutes) {
-        _minutesControllers[1].forward();
+        _minutesAnimations[1].forward();
       }
       if (countdown.currentDiff.hours != countdown.nextDiff.hours) {
-        _hoursControllers[1].forward();
+        _hoursAnimations[1].forward();
       }
 
       // move the 1st digit of the seconds segment
       _animateLeftDigit(
         countdown.currentDiff.seconds,
         countdown.nextDiff.seconds,
-        _secondsControllers[0],
+        _secondsAnimations[0],
       );
 
       // move the 1st digit of the minutes segment
       _animateLeftDigit(
         countdown.currentDiff.minutes,
         countdown.nextDiff.minutes,
-        _minutesControllers[0],
+        _minutesAnimations[0],
       );
 
       // move the 1st digit of the hours segment
       _animateLeftDigit(
         countdown.currentDiff.hours,
         countdown.nextDiff.hours,
-        _hoursControllers[0],
+        _hoursAnimations[0],
       );
     });
   }
@@ -96,7 +89,7 @@ class _CountdownDisplayState extends State<CountdownDisplay>
   @override
   void dispose() {
     _countdownBloc.dispose();
-    for (final controller in _animationControllers) {
+    for (final controller in _clockAnimations) {
       controller.dispose();
     }
     super.dispose();
@@ -145,9 +138,9 @@ class _CountdownDisplayState extends State<CountdownDisplay>
                     const SizedBox(height: 16),
                     AnimatedCountdown(
                       countdownBloc: _countdownBloc,
-                      hoursAnimation: _hoursControllers,
-                      minutesAnimation: _minutesControllers,
-                      secondsAnimation: _secondsControllers,
+                      hoursAnimation: _hoursAnimations,
+                      minutesAnimation: _minutesAnimations,
+                      secondsAnimation: _secondsAnimations,
                     )
                   ],
                 ),
