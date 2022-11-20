@@ -37,17 +37,9 @@ class CountdownBloc {
   Countdown _calculateDiff(DateTime end) {
     final now = DateTime.now();
     final current = end.difference(now);
-    final next = DateTime(
-            end.year, end.month, end.day, end.hour, end.minute, end.second - 1)
-        .difference(now);
-    final currentDiff = TimeDifference(
-        hours: current.inHours,
-        minutes: (current.inMinutes % 60).floor(),
-        seconds: (current.inSeconds % 60).floor());
-    final nextDiff = TimeDifference(
-        hours: next.inHours,
-        minutes: (next.inMinutes % 60).floor(),
-        seconds: (next.inSeconds % 60).floor());
+    final next = end.subtract(const Duration(seconds: 1)).difference(now);
+    final currentDiff = TimeDifference.from(current);
+    final nextDiff = TimeDifference.from(next);
     return Countdown(currentDiff: currentDiff, nextDiff: nextDiff);
   }
 

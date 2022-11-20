@@ -13,12 +13,21 @@ class TimeDifference {
 
   bool get isEmpty => hours <= 0 && minutes <= 0 && seconds <= 0;
 
+  factory TimeDifference.from(Duration diff) {
+    return TimeDifference(
+      hours: diff.inHours,
+      minutes: (diff.inMinutes % 60).floor(),
+      seconds: (diff.inSeconds % 60).floor(),
+    );
+  }
+
   /// Finds the previous time value and cap it according to the [digitType]
   static int findPreviousTimeValue(int number, SegmentDigitType digitType) {
     int prevNumber = number - 1;
     return prevNumber < 0 ? findMaxSegmentNumber(digitType) : prevNumber;
   }
 
+  /// Finds the maximum number for the given [segmentType]
   static int findMaxSegmentNumber(SegmentDigitType segmentType) {
     switch (segmentType) {
       case SegmentDigitType.hoursTens:
