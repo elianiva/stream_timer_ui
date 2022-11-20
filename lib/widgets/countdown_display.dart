@@ -46,44 +46,7 @@ class _CountdownDisplayState extends State<CountdownDisplay>
       _buildClockAnimation(this), // ones
     ];
 
-    _countdownBloc.stream.listen((countdown) {
-      // reset all digits position
-      for (final controller in _clockAnimations) {
-        controller.reset();
-      }
-
-      // move the ones digit
-      if (countdown.currentDiff.seconds != countdown.nextDiff.seconds) {
-        _secondsAnimations[1].forward();
-      }
-      if (countdown.currentDiff.minutes != countdown.nextDiff.minutes) {
-        _minutesAnimations[1].forward();
-      }
-      if (countdown.currentDiff.hours != countdown.nextDiff.hours) {
-        _hoursAnimations[1].forward();
-      }
-
-      // move the 1st digit of the seconds segment
-      _animateLeftDigit(
-        countdown.currentDiff.seconds,
-        countdown.nextDiff.seconds,
-        _secondsAnimations[0],
-      );
-
-      // move the 1st digit of the minutes segment
-      _animateLeftDigit(
-        countdown.currentDiff.minutes,
-        countdown.nextDiff.minutes,
-        _minutesAnimations[0],
-      );
-
-      // move the 1st digit of the hours segment
-      _animateLeftDigit(
-        countdown.currentDiff.hours,
-        countdown.nextDiff.hours,
-        _hoursAnimations[0],
-      );
-    });
+    _countdownBloc.stream.listen(_animateDigits);
   }
 
   @override
@@ -169,5 +132,44 @@ class _CountdownDisplayState extends State<CountdownDisplay>
     if (prevFirstDigit != currentFirstDigit) {
       controller.forward();
     }
+  }
+
+  void _animateDigits(countdown) {
+    // reset all digits position
+    for (final controller in _clockAnimations) {
+      controller.reset();
+    }
+
+    // move the ones digit
+    if (countdown.currentDiff.seconds != countdown.nextDiff.seconds) {
+      _secondsAnimations[1].forward();
+    }
+    if (countdown.currentDiff.minutes != countdown.nextDiff.minutes) {
+      _minutesAnimations[1].forward();
+    }
+    if (countdown.currentDiff.hours != countdown.nextDiff.hours) {
+      _hoursAnimations[1].forward();
+    }
+
+    // move the 1st digit of the seconds segment
+    _animateLeftDigit(
+      countdown.currentDiff.seconds,
+      countdown.nextDiff.seconds,
+      _secondsAnimations[0],
+    );
+
+    // move the 1st digit of the minutes segment
+    _animateLeftDigit(
+      countdown.currentDiff.minutes,
+      countdown.nextDiff.minutes,
+      _minutesAnimations[0],
+    );
+
+    // move the 1st digit of the hours segment
+    _animateLeftDigit(
+      countdown.currentDiff.hours,
+      countdown.nextDiff.hours,
+      _hoursAnimations[0],
+    );
   }
 }
