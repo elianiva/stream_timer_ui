@@ -16,6 +16,13 @@ class AnimatedNumber extends StatelessWidget {
   final AnimationController animationController;
   final int translationOffset = 100;
 
+  final numberTextStyle = const TextStyle(
+    fontSize: 82,
+    height: 1,
+    color: AppColors.softBlack,
+    fontWeight: FontWeight.w700,
+  );
+
   @override
   Widget build(BuildContext context) {
     return ClipRect(
@@ -36,12 +43,7 @@ class AnimatedNumber extends StatelessWidget {
               },
               child: Text(
                 number.toString(),
-                style: const TextStyle(
-                  fontSize: 82,
-                  height: 1,
-                  color: AppColors.softBlack,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: numberTextStyle,
               ),
             ),
             AnimatedBuilder(
@@ -57,13 +59,9 @@ class AnimatedNumber extends StatelessWidget {
                 );
               },
               child: Text(
-                TimeDifference.findPreviousTimeValue(number, digitType).toString(),
-                style: const TextStyle(
-                  fontSize: 88,
-                  height: 1,
-                  color: AppColors.softBlack,
-                  fontWeight: FontWeight.w700,
-                ),
+                TimeDifference.findPreviousTimeValue(number, digitType)
+                    .toString(),
+                style: numberTextStyle,
               ),
             ),
           ],
