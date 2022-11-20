@@ -20,7 +20,7 @@ class AnimatedCountdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TimeDifference>(
+    return StreamBuilder<Countdown>(
       stream: countdownBloc.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
@@ -28,7 +28,7 @@ class AnimatedCountdown extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TimeSegment(
-              time: snapshot.data!.hours.toString().padLeft(2, '0'),
+              time: snapshot.data!.currentDiff.hours.toString().padLeft(2, '0'),
               label: "HOURS",
               animated: true,
               leftAnimation: hoursAnimation[0],
@@ -37,7 +37,8 @@ class AnimatedCountdown extends StatelessWidget {
             ),
             TimeSegment(time: ":", label: ""),
             TimeSegment(
-              time: snapshot.data!.minutes.toString().padLeft(2, '0'),
+              time:
+                  snapshot.data!.currentDiff.minutes.toString().padLeft(2, '0'),
               label: "MINUTES",
               animated: true,
               leftAnimation: minutesAnimation[0],
@@ -46,7 +47,8 @@ class AnimatedCountdown extends StatelessWidget {
             ),
             TimeSegment(time: ":", label: ""),
             TimeSegment(
-              time: snapshot.data!.seconds.toString().padLeft(2, '0'),
+              time:
+                  snapshot.data!.currentDiff.seconds.toString().padLeft(2, '0'),
               label: "SECONDS",
               animated: true,
               leftAnimation: secondsAnimation[0],

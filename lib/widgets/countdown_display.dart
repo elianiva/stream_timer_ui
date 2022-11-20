@@ -34,32 +34,23 @@ class _CountdownDisplayState extends State<CountdownDisplay>
     super.initState();
 
     _secondsControllers = [
-      _buildClockAnimation(this),
-      _buildClockAnimation(this),
+      _buildClockAnimation(this), // tens
+      _buildClockAnimation(this), // ones
     ];
     _minutesControllers = [
-      _buildClockAnimation(this),
-      _buildClockAnimation(this),
+      _buildClockAnimation(this), // tens
+      _buildClockAnimation(this), // ones
     ];
     _hoursControllers = [
-      _buildClockAnimation(this),
-      _buildClockAnimation(this),
+      _buildClockAnimation(this), // tens
+      _buildClockAnimation(this), // ones
     ];
-
-    TimeDifference prevDiff = const TimeDifference(
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    );
 
     // we need this to prevent the clock animating on the first iteration
     bool hasRan = false;
-    _countdownBloc.stream.listen((currentDiff) {
+    _countdownBloc.stream.listen((countdown) {
       if (!hasRan) {
         hasRan = true;
-        // set the previous value to the first iteration value so we don't need to animate it
-        // on the first run
-        prevDiff = currentDiff;
         return;
       }
 
@@ -68,47 +59,37 @@ class _CountdownDisplayState extends State<CountdownDisplay>
         controller.reset();
       }
 
-      // move the 2nd digit of the seconds segment whenever it changes
-      if (currentDiff.seconds != prevDiff.seconds) {
+      // move the ones digit
+      if (countdown.currentDiff.seconds != countdown.nextDiff.seconds) {
         _secondsControllers[1].forward();
       }
-
-      // animate the second digit of the minute segment whenever the seconds changes from 00 to 59
-      // offset by +1 because the sliding numbers are getting a -1 offset, we need to normalise it
-      if (prevDiff.seconds == 1 && currentDiff.seconds == 0) {
+      if (countdown.currentDiff.minutes != countdown.nextDiff.minutes) {
         _minutesControllers[1].forward();
       }
-
-      // same rule as the minutes segment applies here, except the offset
-      if (prevDiff.minutes == 0 && currentDiff.minutes == 59) {
+      if (countdown.currentDiff.hours != countdown.nextDiff.hours) {
         _hoursControllers[1].forward();
       }
 
       // move the 1st digit of the seconds segment
       _animateLeftDigit(
-        prevDiff.seconds - 1,
-        currentDiff.seconds - 1,
+        countdown.currentDiff.seconds,
+        countdown.nextDiff.seconds,
         _secondsControllers[0],
-        SegmentType.seconds,
       );
 
       // move the 1st digit of the minutes segment
       _animateLeftDigit(
-        prevDiff.minutes - 1,
-        currentDiff.minutes - 1,
+        countdown.currentDiff.minutes,
+        countdown.nextDiff.minutes,
         _minutesControllers[0],
-        SegmentType.minutes,
       );
 
       // move the 1st digit of the hours segment
       _animateLeftDigit(
-        prevDiff.hours - 1,
-        currentDiff.hours - 1,
+        countdown.currentDiff.hours,
+        countdown.nextDiff.hours,
         _hoursControllers[0],
-        SegmentType.hours,
       );
-
-      prevDiff = currentDiff;
     });
   }
 
@@ -189,19 +170,10 @@ class _CountdownDisplayState extends State<CountdownDisplay>
     int prev,
     int current,
     AnimationController controller,
-    SegmentType segmentType,
   ) {
     final prevFirstDigit = (prev / 10).floor();
     final currentFirstDigit = (current / 10).floor();
     if (prevFirstDigit != currentFirstDigit) {
-      // prevent unnecessary animation, how does it work? I literally have no idea
-      // I somehow figured it out, but I still don't know how
-      if (segmentType == SegmentType.seconds &&
-          prevFirstDigit == -1 &&
-          currentFirstDigit == 5) {
-        return;
-      }
-
       controller.forward();
     }
   }
