@@ -1,16 +1,19 @@
-# stream_timer
+# stream_timer_ui
 
-A new Flutter project.
+A simple Flutter UI clone showing a countdown timer utilising the Stream class. My submission for one of [WRI](https://github.com/wrideveloper) assignments.
 
-## Getting Started
+The UI is taken from [Angelica Dovnar | Daily UI 14 - Countdown Timer](https://dribbble.com/shots/7110551-Daily-UI-14-Countdown-Timer) on Dribbble.
 
-This project is a starting point for a Flutter application.
+## How it works
 
-A few resources to get you started if this is your first Flutter project:
+There's a `CountdownBloc`, which is basically a stream that emits the current difference and the next difference every second.
+The reason why we need the next difference is because we need to know one second ahead due to how the ticking animation works. It basically scrolls to the next 'second' then replace the number and reset the animation repeatedly. For example, current time diff is 20, the animation will scroll to 19, but 19 is still on the next time diff. This knowledge is used to determine whether or not to animate the clock digit.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Preview
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/51877647/202879617-d41f8a9f-7703-48a0-a9de-ca31da8db65d.mp4
+
+## Development
+
+It's just a Flutter project. You can just press F5 on Android Studio or VSCode and be done with your day.
+Although, if you don't like those options, you can always run `flutter run` in your CLI, but you won't get the niceties that come with the debugger.
