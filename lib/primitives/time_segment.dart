@@ -6,11 +6,11 @@ enum SegmentType {
 }
 
 enum SegmentDigitType {
-  secondsLeft,
-  secondsRight,
-  minutesLeft,
-  minutesRight,
-  hoursLeft,
-  hoursRight,
+  secondsTens,
+  secondsOnes,
+  minutesTens,
+  minutesOnes,
+  hoursTens,
+  hoursOnes,
   unknown
 }

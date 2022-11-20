@@ -9,13 +9,13 @@ class TimeSegment extends StatefulWidget {
       required this.time,
       required this.label,
       this.animated = false,
-      this.leftAnimationController,
-      this.rightAnimationController,
+      this.leftAnimation,
+      this.rightAnimation,
       this.segmentType = SegmentType.unknown}) {
     if (animated) {
       assert(time.length == 2);
-      assert(leftAnimationController != null);
-      assert(rightAnimationController != null);
+      assert(leftAnimation != null);
+      assert(rightAnimation != null);
     }
   }
 
@@ -23,8 +23,8 @@ class TimeSegment extends StatefulWidget {
   final String label;
   final bool animated;
   final SegmentType segmentType;
-  AnimationController? leftAnimationController;
-  AnimationController? rightAnimationController;
+  AnimationController? leftAnimation;
+  AnimationController? rightAnimation;
 
   @override
   State<TimeSegment> createState() => _TimeSegmentState();
@@ -35,17 +35,17 @@ class _TimeSegmentState extends State<TimeSegment> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widget.animated && widget.rightAnimationController != null
+        widget.animated && widget.rightAnimation != null
             ? Row(
                 children: [
                   AnimatedNumber(
                     number: int.tryParse(widget.time[0])!,
-                    animationController: widget.leftAnimationController!,
+                    animationController: widget.leftAnimation!,
                     digitType: _segmentToDigitType(widget.segmentType, "left"),
                   ),
                   AnimatedNumber(
                     number: int.tryParse(widget.time[1])!,
-                    animationController: widget.rightAnimationController!,
+                    animationController: widget.rightAnimation!,
                     digitType: _segmentToDigitType(widget.segmentType, "right"),
                   ),
                 ],
@@ -83,16 +83,16 @@ class _TimeSegmentState extends State<TimeSegment> {
     switch (segmentType) {
       case SegmentType.hours:
         return isLeft
-            ? SegmentDigitType.hoursLeft
-            : SegmentDigitType.hoursRight;
+            ? SegmentDigitType.hoursTens
+            : SegmentDigitType.hoursOnes;
       case SegmentType.minutes:
         return isLeft
-            ? SegmentDigitType.minutesLeft
-            : SegmentDigitType.minutesRight;
+            ? SegmentDigitType.minutesTens
+            : SegmentDigitType.minutesOnes;
       case SegmentType.seconds:
         return isLeft
-            ? SegmentDigitType.secondsLeft
-            : SegmentDigitType.secondsRight;
+            ? SegmentDigitType.secondsTens
+            : SegmentDigitType.secondsOnes;
       default:
         return SegmentDigitType.unknown;
     }

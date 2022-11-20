@@ -94,8 +94,8 @@ class _CountdownDisplayState extends State<CountdownDisplay>
 
       // move the 1st digit of the minutes segment
       _animateLeftDigit(
-        prevDiff.minutes,
-        currentDiff.minutes,
+        prevDiff.minutes - 1,
+        currentDiff.minutes - 1,
         _minutesControllers[0],
         SegmentType.minutes,
       );
@@ -164,9 +164,9 @@ class _CountdownDisplayState extends State<CountdownDisplay>
                     const SizedBox(height: 16),
                     AnimatedCountdown(
                       countdownBloc: _countdownBloc,
-                      hoursControllers: _hoursControllers,
-                      minutesControllers: _minutesControllers,
-                      secondsControllers: _secondsControllers,
+                      hoursAnimation: _hoursControllers,
+                      minutesAnimation: _minutesControllers,
+                      secondsAnimation: _secondsControllers,
                     )
                   ],
                 ),

@@ -21,14 +21,14 @@ class TimeDifference {
 
   static int findMaxSegmentNumber(SegmentDigitType segmentType) {
     switch (segmentType) {
-      case SegmentDigitType.hoursLeft:
+      case SegmentDigitType.hoursTens:
         return 1;
-      case SegmentDigitType.minutesLeft:
-      case SegmentDigitType.secondsLeft:
+      case SegmentDigitType.minutesTens:
+      case SegmentDigitType.secondsTens:
         return 5;
-      case SegmentDigitType.hoursRight:
-      case SegmentDigitType.minutesRight:
-      case SegmentDigitType.secondsRight:
+      case SegmentDigitType.hoursOnes:
+      case SegmentDigitType.minutesOnes:
+      case SegmentDigitType.secondsOnes:
         return 9;
       default:
         return 0;
