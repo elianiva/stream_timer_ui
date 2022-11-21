@@ -24,11 +24,12 @@ class AnimatedCountdown extends StatelessWidget {
       stream: countdownBloc.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
+        final currentDiff = snapshot.data!.currentDiff;
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TimeSegment(
-              time: snapshot.data!.currentDiff.hours.toString().padLeft(2, '0'),
+              time: currentDiff.hours.toString().padLeft(2, '0'),
               label: "HOURS",
               animated: true,
               leftAnimation: hoursAnimation[0],
@@ -37,8 +38,7 @@ class AnimatedCountdown extends StatelessWidget {
             ),
             TimeSegment(time: ":", label: ""),
             TimeSegment(
-              time:
-                  snapshot.data!.currentDiff.minutes.toString().padLeft(2, '0'),
+              time: currentDiff.minutes.toString().padLeft(2, '0'),
               label: "MINUTES",
               animated: true,
               leftAnimation: minutesAnimation[0],
@@ -47,8 +47,7 @@ class AnimatedCountdown extends StatelessWidget {
             ),
             TimeSegment(time: ":", label: ""),
             TimeSegment(
-              time:
-                  snapshot.data!.currentDiff.seconds.toString().padLeft(2, '0'),
+              time: currentDiff.seconds.toString().padLeft(2, '0'),
               label: "SECONDS",
               animated: true,
               leftAnimation: secondsAnimation[0],
