@@ -16,8 +16,8 @@ class TimeDifference {
   factory TimeDifference.from(Duration diff) {
     return TimeDifference(
       hours: diff.inHours,
-      minutes: (diff.inMinutes % 60).floor(),
-      seconds: (diff.inSeconds % 60).floor(),
+      minutes: (diff.inMinutes % 60).round(),
+      seconds: (diff.inSeconds % 60).round(),
     );
   }
 
@@ -30,11 +30,10 @@ class TimeDifference {
   /// Finds the maximum number for the given [segmentType]
   static int findMaxSegmentNumber(SegmentDigitType segmentType) {
     switch (segmentType) {
-      case SegmentDigitType.hoursTens:
-        return 1;
       case SegmentDigitType.minutesTens:
       case SegmentDigitType.secondsTens:
         return 5;
+      case SegmentDigitType.hoursTens:
       case SegmentDigitType.hoursOnes:
       case SegmentDigitType.minutesOnes:
       case SegmentDigitType.secondsOnes:
